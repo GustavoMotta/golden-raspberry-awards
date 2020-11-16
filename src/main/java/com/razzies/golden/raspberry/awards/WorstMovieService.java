@@ -105,7 +105,9 @@ public class WorstMovieService {
         LOGGER.info("Grouping winner movies by producer");
         List<WorstMovie> movies = repository.findAllByWinner("yes");
         Map<String, List<WorstMovie>> producerMoviesGroup = new HashMap<>();
-        movies.forEach(movie -> group(producerMoviesGroup, movie));
+        movies.stream()
+                .sorted(Comparator.comparing(WorstMovie::getYear))
+                .forEach(movie -> group(producerMoviesGroup, movie));
         return producerMoviesGroup;
     }
 
